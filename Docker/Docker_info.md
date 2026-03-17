@@ -70,17 +70,21 @@ Ingress — это ресурс в сетях, который определяе
 Macvlan - можем переиспользовать Mac адрес на основе виртуального(физического) адаптера сети, комбинируется c другими типами сети\
 Bridge: docker network create -d macvlan --subnet=172.16.1.0/24 --gateway=172.16.1.1 -o parent=eth0 [имя сети]\
 Bridge с исколючением Ip-фдресов: docker network -d macvlan --subnet=192.168.0.0/24 --subnet=192.168.0.128/24 --gateway=192.168.0.254 --aux-address="my-router=192.168.0.129" -o parent=eth0 [Имя сети]\
-Ipvlan вместо macvlan: docker network -d ipvlan --subnet192.168.10.0/24 --subnet=192.168.12.0/24 --gateway=192.168.10.254 --gateway=192.168.12.254 -o ipvlan_made=l2 -o parent=eth0 [Имя сети]\
+Ipvlan вместо macvlan: docker network -d ipvlan --subnet=192.168.10.0/24 --subnet=192.168.12.0/24 --gateway=192.168.10.254 --gateway=192.168.12.254 -o ipvlan_made=l2 -o parent=eth0 [Имя сети]\
 Модель OSI - модель сети из 7 уровней, на каждом из которых есть свое обозначение (В данном случае исполльзуется второй уровень сети ipvlan_made=l2)
 
 #Отключение сети от контейнера
 
 docker run --rm -dit --network none --name [Имя контейнера] nginx:latest ash\
 docker exec [Имя контейнера] ip link show - покажет, что у контейнера нет сети\
-docker exec [Имя контейнера] ip route - тфблицы маршрутизации нет\
+docker exec [Имя контейнера] ip route - таблицы маршрутизации нет\
 Останавливаем и контейнера удаляется\
 
 docker network ls - список всех сетей Docker\
-ip link add [Имя сети] link [Имя сетевого интерфейса] type macvlan mode bridge - соудинение нескольких сетей\
+ip link add [Имя сети] link [Имя сетевого интерфейса] type macvlan mode bridge - соединение нескольких сетей\
 ip addr add 10.0.2.17/24 dev mac0 - создаем подсеть в сети Docker\
 ipconfig [Имя сети] up - поднимаем сеть\
+
+Docker Swarm
+
+

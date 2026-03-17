@@ -1,0 +1,9 @@
+FROM golang:1.22.2 AS builder
+WORKDIR /app
+COPY go.mod ./
+COPY main.go ./
+RUN go build -o myapp
+
+FROM alpine:3.19
+COPY --from=builder /app/myapp /myapp
+CMD ["/myapp"]
