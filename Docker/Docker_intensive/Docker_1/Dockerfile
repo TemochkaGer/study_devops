@@ -1,4 +1,6 @@
 FROM python:3.11
-WORKDIR /app
-COPY . .
+RUN useradd -m appuser
+USER appuser
+WORKDIR /home/appuser
+COPY --chown=appuser:appuser . .
 CMD ["python", "app.py"]
